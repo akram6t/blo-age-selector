@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Age and Relationship Selector</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-2 bg-gray-100 flex items-center justify-center h-screen">
+  <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+    <h1 class="text-2xl font-bold mb-4 text-center">Age & Relationship Selector</h1>
+    
+    <!-- Age Selector -->
+    <label class="block mb-2 text-gray-700">Select Age</label>
+    <select id="age-select" class="w-full p-2 border rounded-lg mb-4">
+      <option value="" selected>Select Age</option>
+      <!-- Generate options from 18 to 100 dynamically using JavaScript -->
+    </select>
+
+    <!-- Relationship Selector -->
+    <label class="block mb-2 text-gray-700">Select Relationship</label>
+    <div class="flex mb-4">
+      <label class="mr-4">
+        <input type="radio" name="relationship" value="son-daughter" class="mr-2">
+        Son/Daughter
+      </label>
+      <label>
+        <input type="radio" name="relationship" value="wife" class="mr-2">
+        Wife
+      </label>
+    </div>
+
+    <!-- Result Display -->
+    <div class="mt-4">
+      <p class="text-lg font-semibold">Result:</p>
+      <p id="result" class="text-blue-600 text-xl font-bold mt-2"></p>
+    </div>
+  </div>
+
+  <script>
+    // Populate the age select options dynamically
+    const ageSelect = document.getElementById('age-select');
+    for (let age = 18; age <= 100; age++) {
+      const option = document.createElement('option');
+      option.value = age;
+      option.textContent = age;
+      ageSelect.appendChild(option);
+    }
+
+    // Event listener for the relationship selection and result calculation
+    document.querySelectorAll('input[name="relationship"]').forEach((radio) => {
+      radio.addEventListener('change', () => {
+        const selectedAge = parseInt(ageSelect.value);
+        const relationship = document.querySelector('input[name="relationship"]:checked').value;
+        const resultElement = document.getElementById('result');
+
+        if (!isNaN(selectedAge)) {
+          let result;
+          if (relationship === 'son-daughter') {
+            result = 2024 - selectedAge;
+          } else if (relationship === 'wife') {
+            const randomAdd = Math.floor(Math.random() * 3) + 18; // Random number between 18 and 20
+            result = new Date().getFullYear() - selectedAge + randomAdd;
+          }
+          resultElement.textContent = result;
+        } else {
+          resultElement.textContent = "Please select an age";
+        }
+      });
+    });
+  </script>
+</body>
+</html>
